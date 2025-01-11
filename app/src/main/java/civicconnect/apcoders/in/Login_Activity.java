@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import civicconnect.apcoders.in.authority.DashboardActivity;
 import es.dmoral.toasty.Toasty;
 
 public class Login_Activity extends AppCompatActivity {
@@ -91,16 +92,25 @@ public class Login_Activity extends AppCompatActivity {
                                 progressBar.setVisibility(View.VISIBLE);
                                 btn.setEnabled(true);
                                 Toasty.success(Login_Activity.this, "Login Successful", Toasty.LENGTH_LONG).show();
-                                Intent i = new Intent(Login_Activity.this, MainActivity.class);
-                                i.putExtra("UserType", UserType);
+
                                 SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("isLoggedIn", true);
                                 editor.putString("UserType", UserType);
                                 editor.apply();
                                 editor.commit();
-                                startActivity(i);
-                                finish();
+                                if (UserType.equals("Normal User")) {
+                                    Intent i = new Intent(Login_Activity.this, MainActivity.class);
+                                    i.putExtra("UserType", UserType);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    Intent i = new Intent(Login_Activity.this, DashboardActivity.class);
+                                    i.putExtra("UserType", UserType);
+                                    startActivity(i);
+                                    finish();
+                                }
+
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {

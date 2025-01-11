@@ -29,7 +29,7 @@
             android:name=".OthersActivityUpVotesReport"
             android:exported="false" />
         <activity
-            android:name=".SHowMyAllReports"
+            android:name=".ShowMyAllReports"
             android:exported="false" />
         <activity
             android:name=".SubmitReportActivity"

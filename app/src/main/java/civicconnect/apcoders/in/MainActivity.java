@@ -25,6 +25,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import civicconnect.apcoders.in.Utils.FetchUserData;
+import civicconnect.apcoders.in.authority.AuthorityScoreChecker;
 import civicconnect.apcoders.in.models.AuthorityModel;
 import civicconnect.apcoders.in.models.NormalUserModel;
 import es.dmoral.toasty.Toasty;
@@ -159,31 +160,42 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 //
-        CardView portal = findViewById(R.id.SubmitReportCardView);
-        portal.setOnClickListener(new View.OnClickListener() {
+        CardView SubmitReportCardView = findViewById(R.id.SubmitReportCardView);
+        SubmitReportCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, SubmitReportActivity.class));
             }
 
         });
-//
-//        Button buttonTrackingSystem = findViewById(R.id.buttonTrackingSystem);
-//        buttonTrackingSystem.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, MapsActivity.class));
-//            }
-//        });
-//
-//        Button PanicPortal = findViewById(R.id.buttonPanic);
-//        PanicPortal.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, PanicActivity.class));
-//            }
-//        });
 
+        CardView MyReportsCardView = findViewById(R.id.MyReportsCardView);
+        MyReportsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ShowMyAllReports.class));
+            }
+        });
+
+        CardView OthersReportCardView = findViewById(R.id.OthersReportCardView);
+        OthersReportCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, OthersActivityUpVotesReport.class));
+            }
+        });
+
+        CardView CommunityCardView = findViewById(R.id.CommunityCardView);
+        CommunityCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, CommunityActivity.class));
+            }
+        });
+        CardView authorityScorecardView = findViewById(R.id.AuthorityScorecardView);
+        authorityScorecardView.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, AuthorityScoreChecker.class));
+        });
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

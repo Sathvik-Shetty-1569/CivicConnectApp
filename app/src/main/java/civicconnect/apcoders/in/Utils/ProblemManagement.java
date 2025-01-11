@@ -1,8 +1,12 @@
 package civicconnect.apcoders.in.Utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
@@ -11,14 +15,17 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import civicconnect.apcoders.in.models.ProblemModel;
 
@@ -71,6 +78,32 @@ public class ProblemManagement {
         });
     }
 
+    public static void FetchOthersProblems(GetAllProblems GetAllProblems) {
+
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        CollectionReference collectionName = firebaseFirestore.collection(COLLECTION_NAME);
+
+        collectionName.whereNotEqualTo("userId", FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    ArrayList<ProblemModel> ProblemDataList = new ArrayList<>();
+                    for (int i = 0; i < task.getResult().size(); i++) {
+                        ProblemModel problemModel = task.getResult().getDocuments().get(i).toObject(ProblemModel.class);
+                        ProblemDataList.add(problemModel);
+                    }
+                    GetAllProblems.GetFetchData(ProblemDataList);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                GetAllProblems.GetFetchData(null);
+            }
+        });
+    }
+
+
     public static void FetchCurrentUserProblems(GetAllProblems GetAllProblems) {
         String COLLECTION_NAME = "Problems";
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -98,7 +131,7 @@ public class ProblemManagement {
         });
     }
 
-    public static void UpVoteProblem(String problemId) {
+    public static void UpVoteProblem(String problemId, UserUpvoteCallback userUpvoteCallback) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String userId = firebaseAuth.getCurrentUser().getUid();
@@ -109,21 +142,26 @@ public class ProblemManagement {
                 task.getResult().getDocuments().forEach(document -> {
                     String documentId = document.getId();
                     ArrayList<String> upvoteUserIds = (ArrayList<String>) document.get("upvoteUserIds");
-                    if (upvoteUserIds.contains(userId)) {
-                        Log.d(TAG, "Already upvoted for problemId: " + problemId);
-                        return;
+                    if (upvoteUserIds != null) {
+                        if (upvoteUserIds.contains(userId)) {
+                            userUpvoteCallback.onCheckCompleted(true, documentId);
+                            Log.d(TAG, "Already upvoted for problemId: " + problemId);
+                        }
                     }
                     // Increment upvotes and add userId to the array
                     collection.document(documentId).update(
                             "upvotes", FieldValue.increment(1),
                             "upvoteUserIds", FieldValue.arrayUnion(userId)
                     ).addOnSuccessListener(aVoid -> {
+                        userUpvoteCallback.onCheckCompleted(true, documentId);
                         Log.d(TAG, "Upvote successful and userId added for problemId: " + problemId);
                     }).addOnFailureListener(e -> {
+                        userUpvoteCallback.onCheckCompleted(false, documentId);
                         Log.e(TAG, "Failed to update upvote for problemId: " + problemId, e);
                     });
                 });
             } else {
+                userUpvoteCallback.onCheckCompleted(false, null);
                 Log.e(TAG, "Error finding problem to upvote: " + task.getException());
             }
         }).addOnFailureListener(e -> Log.e(TAG, "UpVoteProblem failed: ", e));
@@ -179,6 +217,40 @@ public class ProblemManagement {
             callback.onDataFetched(false, null); // Failure to fetch data
         });
     }
+    public static void RemoveUpVoteProblem(String problemId, UserUpvoteCallback userUpvoteCallback) {
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String userId = firebaseAuth.getCurrentUser().getUid();
+        CollectionReference collection = firebaseFirestore.collection(COLLECTION_NAME);
+
+        collection.whereEqualTo("problemId", problemId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                task.getResult().getDocuments().forEach(document -> {
+                    String documentId = document.getId();
+                    ArrayList<String> upvoteUserIds = (ArrayList<String>) document.get("upvoteUserIds");
+                    if (upvoteUserIds != null && upvoteUserIds.contains(userId)) {
+                        // Decrement upvotes and remove userId from the array
+                        collection.document(documentId).update(
+                                "upvotes", FieldValue.increment(-1),
+                                "upvoteUserIds", FieldValue.arrayRemove(userId)
+                        ).addOnSuccessListener(aVoid -> {
+                            userUpvoteCallback.onCheckCompleted(true, documentId);
+                            Log.d(TAG, "Upvote removed and userId removed for problemId: " + problemId);
+                        }).addOnFailureListener(e -> {
+                            userUpvoteCallback.onCheckCompleted(false, documentId);
+                            Log.e(TAG, "Failed to remove upvote for problemId: " + problemId, e);
+                        });
+                    } else {
+                        userUpvoteCallback.onCheckCompleted(false, documentId);
+                        Log.d(TAG, "User had not upvoted problemId: " + problemId);
+                    }
+                });
+            } else {
+                userUpvoteCallback.onCheckCompleted(false, null);
+                Log.e(TAG, "Error finding problem to remove upvote: " + task.getException());
+            }
+        }).addOnFailureListener(e -> Log.e(TAG, "RemoveUpVoteProblem failed: ", e));
+    }
 
     public static void FetchProblemsByStatus(String Status, GetAllProblems GetAllProblems) {
 
@@ -189,11 +261,13 @@ public class ProblemManagement {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    Log.d("TAG", "onComplete: ");
                     ArrayList<ProblemModel> ProblemDataList = new ArrayList<>();
                     for (int i = 0; i < task.getResult().size(); i++) {
                         ProblemModel problemModel = task.getResult().getDocuments().get(i).toObject(ProblemModel.class);
                         ProblemDataList.add(problemModel);
                     }
+                    Log.d("TAG", "onComplete: " + ProblemDataList.size());
                     GetAllProblems.GetFetchData(ProblemDataList);
                 }
             }
@@ -224,63 +298,129 @@ public class ProblemManagement {
 //        });
 //    }
 
+    private static Bitmap resizeAndCompressImage(Context context, Uri imageUri) throws IOException {
+        InputStream inputStream = context.getContentResolver().openInputStream(imageUri);
+        Bitmap original = BitmapFactory.decodeStream(inputStream);
+        inputStream.close();
+
+        // Resize the image
+        int maxWidth = 800; // Adjust as needed
+        int maxHeight = 800; // Adjust as needed
+        float aspectRatio = original.getWidth() / (float) original.getHeight();
+        int width = maxWidth;
+        int height = Math.round(maxWidth / aspectRatio);
+
+        if (aspectRatio > 1) {
+            width = Math.round(maxHeight * aspectRatio);
+            height = maxHeight;
+        }
+
+        Bitmap resized = Bitmap.createScaledBitmap(original, width, height, true);
+
+        // Compress the image
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        resized.compress(Bitmap.CompressFormat.JPEG, 80, outputStream); // Adjust quality (80) as needed
+        return BitmapFactory.decodeByteArray(outputStream.toByteArray(), 0, outputStream.size());
+    }
+
     public static void SubmitReport(Context context, String UserId, String ProblemName, GeoPoint ProblemLocation,
                                     String ProblemAddress, String ProblemDescription, Uri ImageUri,
                                     UploadReportCallback uploadReportCallback) {
 
+        String problemId = "PROB_" + UUID.randomUUID().toString();
+        Log.d("TAG", "SubmitReport: ");
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-        StorageReference storageReference = firebaseStorage.getReference();
-        CollectionReference collectionName = firebaseFirestore.collection(COLLECTION_NAME);
+        CollectionReference collectionName = firebaseFirestore.collection("Problems");
 
-        // Create a unique name for the image based on timestamp or any unique identifier
-        String imageName = "problem_images/" + System.currentTimeMillis() + "_" + UserId + ".jpg";
+        // Convert the image to Base64
+        try {
+//            InputStream inputStream = context.getContentResolver().openInputStream(ImageUri);
+//            if (inputStream == null) {
+//                Log.d(TAG, "SubmitReport: Failed to read image data.");
+//                if (uploadReportCallback != null) {
+//                    uploadReportCallback.onCallback("Failed to read image data.");
+//                }
+//                return;
+//            }
+//
+//            // Read the image data into a byte array
+//            byte[] imageBytes = readBytes(inputStream);
 
-        // Reference to the image in Firebase Storage
-        StorageReference imageRef = storageReference.child(imageName);
+            Bitmap resizedImage = resizeAndCompressImage(context, ImageUri);
 
-        // Start image upload
-        imageRef.putFile(ImageUri)
-                .addOnSuccessListener(taskSnapshot -> {
-                    // Get the URL of the uploaded image
-                    imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String imageUrl = uri.toString();
+            // Convert the resized image to Base64
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            resizedImage.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+            String base64Image = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
 
-                        // Create the ProblemModel with the image URL
-                        ProblemModel problemModel = new ProblemModel(
-                                ProblemName,
-                                ProblemDescription,
-                                "Pending",
-                                imageUrl, // Include the image URL here
-                                UserId,
-                                "",
-                                ProblemLocation
-                        );
-
-                        // Store the problem data in Firestore
-                        collectionName.add(problemModel)
-                                .addOnSuccessListener(documentReference -> {
-                                    if (uploadReportCallback != null) {
-                                        uploadReportCallback.onCallback("Report submitted successfully!");
-                                    }
-                                })
-                                .addOnFailureListener(e -> {
-                                    if (uploadReportCallback != null) {
-                                        uploadReportCallback.onCallback(e.getMessage());
-                                    }
-                                });
-
-                    }).addOnFailureListener(e -> {
+            // Create the ProblemModel with the Base64 image string
+            ProblemModel problemModel = new ProblemModel(
+                    ProblemName,
+                    ProblemDescription,
+                    "Reported",
+                    problemId
+                    , // Use the Base64 string here
+                    UserId,
+                    base64Image,
+                    ProblemLocation
+            );
+            Log.d(TAG, "SubmitReport: ");
+            // Store the problem data in Firestore
+            collectionName.add(problemModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    if (task.isSuccessful()) {
                         if (uploadReportCallback != null) {
-                            uploadReportCallback.onCallback("Failed to get image URL: " + e.getMessage());
+                            uploadReportCallback.onCallback("Report submitted successfully!");
                         }
-                    });
-
-                }).addOnFailureListener(e -> {
-                    if (uploadReportCallback != null) {
-                        uploadReportCallback.onCallback("Image upload failed: " + e.getMessage());
                     }
-                });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (uploadReportCallback != null) {
+                        uploadReportCallback.onCallback("Failed to submit report: " + e.getMessage());
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            if (uploadReportCallback != null) {
+                uploadReportCallback.onCallback("Error processing image: " + e.getMessage());
+            }
+        }
+    }
+
+    // Helper method to read bytes from an InputStream
+    private static byte[] readBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+
+    public static void displayImageFromBase64(String base64Image, ImageView imageView) {
+        try {
+            // Decode Base64 string to byte array
+
+            byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+
+            // Convert byte array to Bitmap
+            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+
+            // Set the Bitmap to the ImageView
+            imageView.setImageBitmap(decodedBitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "displayImageFromBase64: " + e.getMessage());
+            // You can set a placeholder or show an error message here if decoding fails
+        }
     }
 
 }

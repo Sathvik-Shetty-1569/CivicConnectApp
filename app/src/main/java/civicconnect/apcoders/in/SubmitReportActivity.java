@@ -1,5 +1,6 @@
 package civicconnect.apcoders.in;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -31,10 +32,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import civicconnect.apcoders.in.Utils.ProblemManagement;
 import civicconnect.apcoders.in.Utils.UserLocation;
+import civicconnect.apcoders.in.models.ProblemModel;
 import es.dmoral.toasty.Toasty;
 
 public class SubmitReportActivity extends AppCompatActivity {
@@ -61,7 +64,7 @@ public class SubmitReportActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        SubmitReport();
+
         backBtn = findViewById(R.id.backBtn);
         product_name_edittext = findViewById(R.id.product_name);
         product_description_edittext = findViewById(R.id.product_description);
@@ -71,6 +74,7 @@ public class SubmitReportActivity extends AppCompatActivity {
         location_cooridnates = findViewById(R.id.location_cooridnates);
         product_image_add_image = findViewById(R.id.product_image_add_image);
         firebaseAuth = FirebaseAuth.getInstance();
+        SubmitReport();
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +116,7 @@ public class SubmitReportActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 submitReportBtn.setEnabled(false);
-
+                Log.d("TAG", "onClick: Submit byn click");
                 product_name = Objects.requireNonNull(product_name_edittext.getText()).toString();
                 product_description = Objects.requireNonNull(product_description_edittext.getText()).toString();
                 product_address = Objects.requireNonNull(product_address_edittext.getText()).toString();
@@ -123,12 +127,14 @@ public class SubmitReportActivity extends AppCompatActivity {
                     submitReportBtn.setEnabled(true);
                 } else {
                     if (ImageUri != null) {
+                        Log.d("TAG", "onClick: ");
                         ProblemManagement.SubmitReport(SubmitReportActivity.this,
                                 Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid(), product_name, new GeoPoint(latitudeValue, longitudeValue), product_address,
                                 product_description, ImageUri, new ProblemManagement.UploadReportCallback() {
+                                    @SuppressLint("UseCompatLoadingForDrawables")
                                     @Override
                                     public void onCallback(String message) {
-                                        if (message.equals("OK")) {
+                                        if (message.equals("Report submitted successfully!")) {
                                             product_name_edittext.setText(null);
                                             product_description_edittext.setText(null);
                                             product_quantity_edittext.setText(null);

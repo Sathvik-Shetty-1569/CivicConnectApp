@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="vertical">
 
         <RelativeLayout
@@ -33,18 +32,25 @@
                 android:id="@+id/titledescribe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="16dp"
-
                 android:layout_marginBottom="28dp"
                 android:text="About"
                 android:textColor="@color/white"
                 android:textSize="27sp" />
-
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="16dp"
+            android:text="Built at a Hackathon to Connect Communities, Empower Citizens"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/appName"
@@ -58,8 +64,7 @@
             android:textColor="#0f0"
             android:textSize="27sp"
             android:textStyle="bold" />
-
-        <!-- Version -->
+        <!--  Version  -->
         <TextView
             android:id="@+id/versionInfo"
             android:layout_width="wrap_content"
@@ -71,8 +76,82 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <!-- Developer Information -->
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingLeft="10sp"
+            android:paddingBottom="8dp"
+            android:text="Description"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/appDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:paddingBottom="16dp"
+            android:text="CivicConnect was born out of a shared passion for innovation and community-driven problem-solving during a high-energy hackathon. Our platform bridges the gap between citizens and local authorities, providing a simple yet effective way to report and address civic issues. With CivicConnect, we aim to make neighborhoods smarter, more transparent, and better connected."
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/Mission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingLeft="10sp"
+            android:paddingBottom="8dp"
+            android:text="Mission"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/missioncontent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:paddingBottom="16dp"
+            android:text="To empower citizens and authorities with tools to collaboratively address civic challenges and create a safe, thriving community."
+            android:textSize="16sp" />
+        <!--  Developer Information  -->
+        <TextView
+            android:id="@+id/Join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingLeft="10sp"
+            android:paddingBottom="8dp"
+            android:text="Join Us : "
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/JoinContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingLeft="10sp"
+            android:paddingBottom="8dp"
+            android:text=" Together, we can transform how civic issues are resolved and create communities we’re proud to call home"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/contactInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10sp"
+            android:paddingBottom="16dp"
+            android:text="Contact Us: support@CivicConnect.com"
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

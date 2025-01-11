@@ -14,6 +14,10 @@ public class ProblemModel {
     String PhotoUrl;
     String Status;
 
+    public ProblemModel() {
+
+    }
+
     public ProblemModel(String problemName, String problemDescription, String status, String problemId, String userId, String photoUrl, GeoPoint geoPointLocation) {
         this.geoPointLocation = geoPointLocation;
         ProblemName = problemName;
