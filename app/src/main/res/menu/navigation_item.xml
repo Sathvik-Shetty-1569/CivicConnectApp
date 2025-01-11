@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/type"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:icon="@drawable/baseline_category_24"
+        android:title="Type"
+    />
+
+    <item android:id="@+id/describe"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:title="Describe"
+        android:icon="@drawable/baseline_description_24"
+        />
+
+    <item android:id="@+id/comfirm"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:title="Comfirm"
+        android:icon="@drawable/baseline_credit_score_24"
+        />
+
+
+</menu>

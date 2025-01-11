@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/vecteezy_pencil_icon_style_6136199"
+        android:title="Manage Profile" />
+
+
+
+
+    <item
+        android:id="@+id/navigation_about"
+        android:icon="@drawable/baseline_info_outline_24"
+        android:title="About" />
+
+    <item
+        android:id="@+id/navigation_share"
+        android:icon="@drawable/baseline_share_24"
+        android:title="Share"
+        />
+
+    <item
+        android:id="@+id/navigation_logout"
+        android:icon="@drawable/baseline_login_24"
+        android:title="Logout"
+        />
+
+
+</menu>
