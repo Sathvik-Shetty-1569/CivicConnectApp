@@ -98,6 +98,7 @@ public class Login_Activity extends AppCompatActivity {
                                 editor.putBoolean("isLoggedIn", true);
                                 editor.putString("UserType", UserType);
                                 editor.apply();
+                                editor.commit();
                                 startActivity(i);
                                 finish();
                             }

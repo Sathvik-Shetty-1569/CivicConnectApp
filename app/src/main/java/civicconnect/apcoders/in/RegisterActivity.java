@@ -1,5 +1,6 @@
 package civicconnect.apcoders.in;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -114,6 +115,10 @@ public class RegisterActivity extends AppCompatActivity {
                                                     if (task.isSuccessful()) {
                                                         progressBar.setVisibility(View.VISIBLE);
                                                         btn.setEnabled(true);
+                                                        SharedPreferences sp = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+                                                        SharedPreferences.Editor edit = sp.edit();
+                                                        edit.putString("username",username);
+                                                        edit.apply();
                                                         Toasty.success(RegisterActivity.this, "Registration Done", Toasty.LENGTH_SHORT).show();
                                                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                                                         finish();
@@ -142,8 +147,10 @@ public class RegisterActivity extends AppCompatActivity {
                                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                                         editor.putBoolean("isLoggedIn", true);
                                                         editor.putString("UserType", UserType);
-                                                        editor.apply();
                                                         i.putExtra("UserType", UserType);
+                                                        editor.apply();
+                                                        editor.commit();
+
                                                         startActivity(i);
                                                         finish();
                                                     }

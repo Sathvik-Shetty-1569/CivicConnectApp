@@ -2,7 +2,9 @@ package civicconnect.apcoders.in;
 import android.Manifest;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -10,6 +12,26 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 
 
@@ -27,6 +49,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.core.view.WindowInsetsCompat;
 
@@ -37,6 +60,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
 
 public class ReportActivity extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST = 100;
@@ -49,6 +73,8 @@ public class ReportActivity extends AppCompatActivity {
     private Bitmap selectedImage;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +83,10 @@ public class ReportActivity extends AppCompatActivity {
         locationTextView = findViewById(R.id.locationTextView);
         Button fetchLocationButton = findViewById(R.id.button_location);
         imageView = findViewById(R.id.imageview_attach);
+        SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        String username = sharedPreferences.getString("username", "username");
+        TextView usernameTextView = findViewById(R.id.textview_username);
+        usernameTextView.setText(username);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLocationButton.setOnClickListener(view -> {

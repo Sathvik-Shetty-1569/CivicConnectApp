@@ -13,15 +13,24 @@ public class ProblemModel {
     String problemId;
     String userId;
     String PhotoUrl;
-
-    public ProblemModel(GeoPoint geoPointLocation, String problemName, String problemDescription, int upvotes, String problemId, String userId, String photoUrl) {
+String Status;
+    public ProblemModel(String problemName, String problemDescription, int upvotes, String status, String problemId, String userId, String photoUrl,GeoPoint geoPointLocation) {
         this.geoPointLocation = geoPointLocation;
         ProblemName = problemName;
         ProblemDescription = problemDescription;
         this.upvotes = upvotes;
+        this.Status = status;
         this.problemId = problemId;
         this.userId = userId;
         PhotoUrl = photoUrl;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 
     public ArrayList<String> getUpVotesUserId() {

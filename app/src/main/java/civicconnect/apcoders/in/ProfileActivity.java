@@ -3,10 +3,7 @@ package civicconnect.apcoders.in;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import civicconnect.apcoders.in.Utils.FetchUserData;
+import civicconnect.apcoders.in.authority.DashboardActivity;
 import civicconnect.apcoders.in.models.AuthorityModel;
 import civicconnect.apcoders.in.models.NormalUserModel;
 
@@ -33,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView fullNameTextView, emailTextView;
     String initialAddress, initialContactNo, initialRegion;
     SharedPreferences sharedPreferences;
+    String userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +44,12 @@ public class ProfileActivity extends AppCompatActivity {
 //        btn = findViewById(R.id.button_Apply_changes);
 //        add = findViewById(R.id.editTextAddress);
 //        cont_no = findViewById(R.id.editTextContact);
-//        back = findViewById(R.id.btnback);
+        back = findViewById(R.id.btnback);
 //        spn = findViewById(R.id.spinner_profile_region);
 
 
         sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-        String userType = sharedPreferences.getString("UserType", "Normal User");
+        userType = sharedPreferences.getString("UserType", "Normal User");
         if (userType.equals("Normal User")) {
             FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
                 @Override
@@ -90,17 +89,23 @@ public class ProfileActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                if (userType.equals("Normal User")) {
+                    startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    startActivity(new Intent(ProfileActivity.this, DashboardActivity.class));
+                    finish();
+                }
             }
         });
 
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -109,35 +114,35 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void setSpinnerToValue(Spinner spinner, String value) {
-        ArrayAdapter adapter = (ArrayAdapter) spinner.getAdapter();
-        int spinnerPosition = adapter.getPosition(value);
-        spinner.setSelection(spinnerPosition);
-    }
-
-
-    // Checks if current values differ from the initial values
-    private void checkForChanges() {
-        String currentAddress = add.getText().toString();
-        String currentContactNo = cont_no.getText().toString();
-        String currentRegion = spn.getSelectedItem().toString();
-
-        saved = currentAddress.equals(initialAddress) && currentContactNo.equals(initialContactNo) && currentRegion.equals(initialRegion);
-    }
-
-    // TextWatcher to detect changes in EditTexts
-    private class ChangeWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            checkForChanges();
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-        }
-    }
+//    private void setSpinnerToValue(Spinner spinner, String value) {
+//        ArrayAdapter adapter = (ArrayAdapter) spinner.getAdapter();
+//        int spinnerPosition = adapter.getPosition(value);
+//        spinner.setSelection(spinnerPosition);
+//    }
+//
+//
+//    // Checks if current values differ from the initial values
+//    private void checkForChanges() {
+//        String currentAddress = add.getText().toString();
+//        String currentContactNo = cont_no.getText().toString();
+//        String currentRegion = spn.getSelectedItem().toString();
+//
+//        saved = currentAddress.equals(initialAddress) && currentContactNo.equals(initialContactNo) && currentRegion.equals(initialRegion);
+//    }
+//
+//    // TextWatcher to detect changes in EditTexts
+//    private class ChangeWatcher implements TextWatcher {
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            checkForChanges();
+//        }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//        }
+//    }
 }
