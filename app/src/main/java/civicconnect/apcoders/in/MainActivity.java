@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
@@ -158,14 +159,14 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 //
-//        Button portal = findViewById(R.id.buttonPortal);
-//        portal.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startActivity(new Intent(MainActivity.this, PortalActivity.class));
-//            }
-//
-//        });
+        CardView portal = findViewById(R.id.SubmitReportCardView);
+        portal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, SubmitReportActivity.class));
+            }
+
+        });
 //
 //        Button buttonTrackingSystem = findViewById(R.id.buttonTrackingSystem);
 //        buttonTrackingSystem.setOnClickListener(new View.OnClickListener() {

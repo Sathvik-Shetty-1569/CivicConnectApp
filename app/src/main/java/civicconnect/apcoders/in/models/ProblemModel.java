@@ -3,7 +3,6 @@ package civicconnect.apcoders.in.models;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProblemModel {
     GeoPoint geoPointLocation;
@@ -13,12 +12,12 @@ public class ProblemModel {
     String problemId;
     String userId;
     String PhotoUrl;
-String Status;
-    public ProblemModel(String problemName, String problemDescription, int upvotes, String status, String problemId, String userId, String photoUrl,GeoPoint geoPointLocation) {
+    String Status;
+
+    public ProblemModel(String problemName, String problemDescription, String status, String problemId, String userId, String photoUrl, GeoPoint geoPointLocation) {
         this.geoPointLocation = geoPointLocation;
         ProblemName = problemName;
         ProblemDescription = problemDescription;
-        this.upvotes = upvotes;
         this.Status = status;
         this.problemId = problemId;
         this.userId = userId;

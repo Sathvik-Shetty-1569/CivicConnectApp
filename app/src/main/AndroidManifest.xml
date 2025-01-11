@@ -23,6 +23,18 @@
         android:theme="@style/Theme.CivicConnect"
         tools:targetApi="31">
         <activity
+            android:name=".CommunityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OthersActivityUpVotesReport"
+            android:exported="false" />
+        <activity
+            android:name=".SHowMyAllReports"
+            android:exported="false" />
+        <activity
+            android:name=".SubmitReportActivity"
+            android:exported="false" />
+        <activity
             android:name=".authority.AuthorityScoreChecker"
             android:exported="false" />
         <activity

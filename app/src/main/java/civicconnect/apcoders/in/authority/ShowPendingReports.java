@@ -36,7 +36,7 @@ public class ShowPendingReports extends AppCompatActivity {
         PendingReportsRecyclerView.setHasFixedSize(true);
         PendingReportsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        ProblemDataList.add(new ProblemModel("Broken Street Lights", "Report broken street lights causing inconvenience and safety concerns in your area. Quick action is needed.", 99, "Pending", "1", "Atul Dubal", "", new GeoPoint(17.12, 13.33)));
+        ProblemDataList.add(new ProblemModel("Broken Street Lights", "Report broken street lights causing inconvenience and safety concerns in your area. Quick action is needed.",  "Pending", "1", "Atul Dubal", "", new GeoPoint(17.12, 13.33)));
         PendingReportsRecyclerView.setAdapter(new ShowProblemRecyclerViewAdapter(this, ProblemDataList));
 
 
