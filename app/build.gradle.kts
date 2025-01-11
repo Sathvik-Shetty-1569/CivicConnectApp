@@ -45,4 +45,5 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.android.spinkit)
+    implementation("com.github.GrenderG:Toasty:1.5.2")
 }
