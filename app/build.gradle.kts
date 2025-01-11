@@ -41,8 +41,23 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation (libs.android.spinkit)
+
+    implementation("com.google.android.gms:play-services-maps:19.0.0")
+    implementation("com.google.android.gms:play-services-location:17.0.0")
+    implementation ("com.google.android.libraries.places:places:2.5.0")
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+    implementation ("com.google.android.material:material:1.9.0")
+    implementation ("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation ("androidx.cardview:cardview:1.0.0")
+
+    //responsive size
+    implementation ("com.intuit.sdp:sdp-android:1.1.1")
+
+    implementation("com.github.GrenderG:Toasty:1.5.2")
 }

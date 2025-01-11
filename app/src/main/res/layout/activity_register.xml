@@ -26,7 +26,7 @@
             android:text="@string/app_name"
             android:textAlignment="center"
             android:textColor="#009688"
-            android:textSize="50dp"
+            android:textSize="40dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,21 +48,19 @@
             app:layout_constraintTop_toBottomOf="@+id/titlePortal2"
             app:layout_constraintVertical_bias="0.057" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <RadioGroup
+            android:layout_marginVertical="10dp"
+            android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
             android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewLogin">
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/radioBtnNormalBtn"
+                android:checked="true"
                 android:layout_marginHorizontal="10dp"
                 android:text="Normal User"
                 android:textColor="@color/white" />
@@ -71,9 +69,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
+                android:id="@+id/radioBtnAuthorityBtn"
                 android:text="Authorities"
                 android:textColor="@color/white" />
-        </LinearLayout>
+        </RadioGroup>
 
         <EditText
             android:id="@+id/editTextRegName"
@@ -124,6 +123,7 @@
             app:layout_constraintVertical_bias="0.343" />
 
         <EditText
+            android:visibility="gone"
             android:id="@+id/editTextRegAuthorityLevel"
             android:layout_width="286dp"
             android:layout_height="49dp"
@@ -248,5 +248,20 @@
             app:layout_constraintTop_toBottomOf="@+id/buttonRegister"
             app:layout_constraintVertical_bias="0.239" />
 
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:layout_marginVertical="20dp"
+            android:id="@+id/spin_kit"
+            android:visibility="gone"
+            style="@style/SpinKitView.Small.Wave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:SpinKit_Color="#FDFDFD"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.525"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.922" />
     </LinearLayout>
 </ScrollView>

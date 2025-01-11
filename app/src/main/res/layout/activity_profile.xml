@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:background="@drawable/wallpaper"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/btnback"
+        android:layout_width="35dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="47dp"
+        android:background="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titledescribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:text="Edit Profile"
+        android:textColor="@color/white"
+        android:textSize="27dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.288"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_fullname_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Full Name:"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.075" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/button_Apply_changes"-->
+    <!--        android:layout_width="382dp"-->
+    <!--        android:layout_height="61dp"-->
+    <!--        android:background="@drawable/btn_bg"-->
+    <!--        android:text="Apply Changes"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.448"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.941" />-->
+
+    <TextView
+        android:id="@+id/textview_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="User Email"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.15" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/profile_add"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:paddingLeft="10dp"-->
+    <!--        android:paddingTop="5dp"-->
+    <!--        android:layout_margin="15dp"-->
+    <!--        android:text="Personal Address :"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.068" />-->
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textview_profile_region"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_margin="15dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:paddingLeft="10dp"-->
+    <!--        android:paddingTop="5dp"-->
+    <!--        android:text="Region:"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        tools:layout_editor_absoluteY="264dp"-->
+    <!--        tools:ignore="MissingConstraints" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/textview_contact"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_margin="15dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:paddingLeft="10dp"-->
+    <!--        android:paddingTop="5dp"-->
+    <!--        android:text="Contact number:"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="20dp"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view"-->
+    <!--        app:layout_constraintVertical_bias="0.709" />-->
+
+    <!--    <Spinner-->
+    <!--        android:id="@+id/spinner_profile_region"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:layout_margin="15dp"-->
+    <!--        android:background="@drawable/comment"-->
+    <!--        android:drawablePadding="10dp"-->
+    <!--        android:elevation="10dp"-->
+    <!--        android:ems="10"-->
+    <!--        android:inputType="text"-->
+    <!--        android:paddingLeft="20dp"-->
+    <!--        android:paddingTop="10dp"-->
+    <!--        android:paddingRight="10dp"-->
+    <!--        android:paddingBottom="10dp"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.517"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.655" />-->
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/editTextAddress"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="80dp"-->
+    <!--        android:layout_margin="15dp"-->
+    <!--        android:paddingBottom="5dp"-->
+    <!--        android:hint="Enter your full Address"-->
+    <!--        android:background="@drawable/comment"-->
+    <!--        android:elevation="10dp"-->
+    <!--        android:paddingLeft="8dp"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.551"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.465" />-->
+
+    <!--    <EditText-->
+    <!--        android:id="@+id/editTextContact"-->
+    <!--        android:layout_width="380dp"-->
+    <!--        android:layout_height="46dp"-->
+    <!--        android:layout_margin="15dp"-->
+    <!--        android:background="@drawable/comment"-->
+    <!--        android:elevation="10dp"-->
+    <!--        android:paddingLeft="15dp"-->
+    <!--        android:inputType="number"-->
+    <!--        android:hint="91+"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textColorHint="#b2b6bd"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.516"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.811" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,9 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$USER_HOME$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+<<<<<<< HEAD
     <mapping directory="$PROJECT_DIR$/CivicConnectApp" vcs="Git" />
+=======
+>>>>>>> dceea2d4714ab6a588dfc46ec820147c005eb558
   </component>
 </project>

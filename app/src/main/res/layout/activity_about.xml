@@ -1,0 +1,78 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="105dp"
+            android:background="@drawable/wallpaper"
+            android:paddingTop="30dp">
+
+            <ImageView
+                android:id="@+id/btnback"
+                android:layout_width="41dp"
+                android:layout_height="36dp"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="start|top"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="23dp"
+                android:background="@drawable/baseline_arrow_back_24" />
+
+            <TextView
+                android:id="@+id/titledescribe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="16dp"
+
+                android:layout_marginBottom="28dp"
+                android:text="About"
+                android:textColor="@color/white"
+                android:textSize="27sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="10dp"
+            android:fontFamily="@font/tapsery"
+            android:paddingBottom="8dp"
+            android:text="@string/app_name"
+            android:textColor="#0f0"
+            android:textSize="27sp"
+            android:textStyle="bold" />
+
+        <!-- Version -->
+        <TextView
+            android:id="@+id/versionInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/tapsery"
+            android:paddingBottom="16dp"
+            android:text="Version: 1.0.0"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <!-- Developer Information -->
+
+
+    </LinearLayout>
+</ScrollView>
