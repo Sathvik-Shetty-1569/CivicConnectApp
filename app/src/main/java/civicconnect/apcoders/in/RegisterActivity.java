@@ -1,6 +1,7 @@
 package civicconnect.apcoders.in;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +25,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import civicconnect.apcoders.in.models.AuthorityModel;
+import civicconnect.apcoders.in.models.NormalUserModel;
 import es.dmoral.toasty.Toasty;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -33,8 +39,11 @@ public class RegisterActivity extends AppCompatActivity {
     TextView tv;
     Button btn;
     Spinner sp;
+    String UserType = "Normal User";
     RadioGroup radioGroup;
     FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+    CollectionReference UserscollectionReference, AuthoritycollectionReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,10 @@ public class RegisterActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        UserscollectionReference = firebaseFirestore.collection("Users");
+        AuthoritycollectionReference = firebaseFirestore.collection("Authorities");
         firebaseAuth = FirebaseAuth.getInstance();
         edFullName = findViewById(R.id.editTextRegName);
         edAuthorityLevel = findViewById(R.id.editTextRegAuthorityLevel);
@@ -88,11 +101,57 @@ public class RegisterActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        progressBar.setVisibility(View.VISIBLE);
-                                        btn.setEnabled(true);
-                                        Toasty.success(RegisterActivity.this, "Registration Done", Toasty.LENGTH_SHORT).show();
-                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                                        finish();
+                                        if (edAuthorityLevel.getVisibility() == View.VISIBLE) {
+                                            AuthorityModel authorityModel = new AuthorityModel(firebaseAuth.getCurrentUser().getUid(), name, username, email, edAuthorityLevel.getText().toString());
+                                            AuthoritycollectionReference.add(authorityModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        progressBar.setVisibility(View.VISIBLE);
+                                                        btn.setEnabled(true);
+                                                        Toasty.success(RegisterActivity.this, "Registration Done", Toasty.LENGTH_SHORT).show();
+                                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                                        finish();
+                                                    }
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    progressBar.setVisibility(View.GONE);
+                                                    btn.setEnabled(true);
+                                                    Toasty.error(RegisterActivity.this, "Something Goes Wrong", Toasty.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else {
+                                            NormalUserModel normalUserModel = new NormalUserModel(firebaseAuth.getCurrentUser().getUid(), name, username, email);
+                                            UserscollectionReference.add(normalUserModel).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                    if (task.isSuccessful()) {
+                                                        progressBar.setVisibility(View.VISIBLE);
+                                                        btn.setEnabled(true);
+                                                        Toasty.success(RegisterActivity.this, "Registration Done", Toasty.LENGTH_SHORT).show();
+                                                        Intent i = new Intent(RegisterActivity.this, MainActivity.class);
+                                                        SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                        editor.putBoolean("isLoggedIn", true);
+                                                        editor.putString("UserType", UserType);
+                                                        editor.apply();
+                                                        i.putExtra("UserType", UserType);
+                                                        startActivity(i);
+                                                        finish();
+                                                    }
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    progressBar.setVisibility(View.GONE);
+                                                    btn.setEnabled(true);
+                                                    Toasty.error(RegisterActivity.this, "Something Goes Wrong", Toasty.LENGTH_SHORT).show();
+
+                                                }
+                                            });
+                                        }
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
@@ -137,16 +196,19 @@ public class RegisterActivity extends AppCompatActivity {
                 if (checkedId == R.id.radioBtnNormalBtn) {
                     // Handle "Normal User" selection
                     edAuthorityLevel.setVisibility(View.GONE);
+                    UserType = "Normal User";
 //                    Toasty.success(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
 
                 } else if (checkedId == R.id.radioBtnAuthorityBtn) {
                     // Handle "Authorities" selection
+                    UserType = "Authorities";
                     edAuthorityLevel.setVisibility(View.VISIBLE);
 //                    Toast.err(getApplicationContext(), "Authorities selected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
+
     public void isLogin() {
         try {
             if (firebaseAuth.getCurrentUser().getUid() != null) {
@@ -157,6 +219,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     }
+
     public static boolean inValid(String passwordhere) {
         int f1 = 0, f2 = 0, f3 = 0;
         if (passwordhere.length() < 8) {

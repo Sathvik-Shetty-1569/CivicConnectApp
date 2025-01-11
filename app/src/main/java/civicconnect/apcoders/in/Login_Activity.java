@@ -33,6 +33,7 @@ public class Login_Activity extends AppCompatActivity {
     EditText edEmail, edPassowrd, EdAuthorityLevel;
     TextView tv;
     Button btn;
+    String UserType = "Normal User";
     FirebaseAuth firebaseAuth;
     RadioGroup radioGroup;
 
@@ -86,7 +87,14 @@ public class Login_Activity extends AppCompatActivity {
                             progressBar.setVisibility(View.VISIBLE);
                             btn.setEnabled(true);
                             Toasty.success(Login_Activity.this, "Login Successful", Toasty.LENGTH_LONG).show();
-                            startActivity(new Intent(Login_Activity.this, MainActivity.class));
+                            Intent i = new Intent(Login_Activity.this, MainActivity.class);
+                            i.putExtra("UserType", UserType);
+                            SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putBoolean("isLoggedIn", true);
+                            editor.putString("UserType", UserType);
+                            editor.apply();
+                            startActivity(i);
                             finish();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -123,11 +131,13 @@ public class Login_Activity extends AppCompatActivity {
                 if (checkedId == R.id.radioBtnNormalBtn) {
                     // Handle "Normal User" selection
                     EdAuthorityLevel.setVisibility(View.GONE);
+                    UserType = "Normal User";
 //                    Toast.makeText(getApplicationContext(), "Normal User selected", Toast.LENGTH_SHORT).show();
 
                 } else if (checkedId == R.id.radioBtnAuthorityBtn) {
                     // Handle "Authorities" selection
                     EdAuthorityLevel.setVisibility(View.VISIBLE);
+                    UserType = "Authorities";
 //                    Toast.makeText(getApplicationContext(), "Authorities selected", Toast.LENGTH_SHORT).show();
                 }
             }

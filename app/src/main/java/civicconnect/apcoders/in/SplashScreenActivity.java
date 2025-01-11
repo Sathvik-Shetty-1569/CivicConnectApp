@@ -1,6 +1,7 @@
 package civicconnect.apcoders.in;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
@@ -12,8 +13,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Wave;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashScreenActivity extends AppCompatActivity {
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +31,19 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(SplashScreenActivity.this, Login_Activity.class);
-                startActivity(i);
-                finish();
+                SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
+                boolean isLogging = sharedPreferences.getBoolean("isLoggedIn", false);
+                String UserType = sharedPreferences.getString("UserType", null);
+                if (isLogging) {
+                    Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                    i.putExtra("UserType", UserType);
+                    startActivity(i);
+                    finish();
+                } else {
+                    Intent i = new Intent(SplashScreenActivity.this, Login_Activity.class);
+                    startActivity(i);
+                    finish();
+                }
             }
         }, 3000);
 

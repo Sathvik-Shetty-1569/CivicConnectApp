@@ -60,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioBtnNormalBtn"
+                android:checked="true"
                 android:layout_marginHorizontal="10dp"
                 android:text="Normal User"
                 android:textColor="@color/white" />
