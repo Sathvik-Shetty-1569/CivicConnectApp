@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name=".Login_Activity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"/>
 
         <meta-data

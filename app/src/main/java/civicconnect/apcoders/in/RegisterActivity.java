@@ -50,7 +50,6 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = edPassowrd.getText().toString();
                 String comfirm = edComfirm.getText().toString();
                 String email = edEmail.getText().toString().trim();
-                Database db = new Database(getApplicationContext(), "healthcare", null, 1);
 
 
                 if (username.length() == 0 || password.length() == 0 || comfirm.length() == 0 || email.length() == 0) {
