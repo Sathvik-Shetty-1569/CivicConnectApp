@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
@@ -15,6 +16,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Wave;
 import com.google.firebase.auth.FirebaseAuth;
+
+import civicconnect.apcoders.in.authority.DashboardActivity;
+import es.dmoral.toasty.Toasty;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -35,12 +39,21 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
                 boolean isLogging = sharedPreferences.getBoolean("isLoggedIn", false);
-                String UserType = sharedPreferences.getString("UserType", null);
+                String UserType = sharedPreferences.getString("UserType", "Normal User");
+                Toasty.success(SplashScreenActivity.this, UserType, Toasty.LENGTH_LONG).show();
                 if (firebaseAuth.getCurrentUser() != null) {
-                    Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
-                    i.putExtra("UserType", UserType);
-                    startActivity(i);
-                    finish();
+                    if (UserType.equals("Normal User")) {
+                        Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
+                        i.putExtra("UserType", UserType);
+                        startActivity(i);
+                        finish();
+                    } else if (UserType.equals("Authorities")) {
+                        Log.d("TAG", "run: Authorities");
+                        Intent i = new Intent(SplashScreenActivity.this, DashboardActivity.class);
+                        i.putExtra("UserType", UserType);
+                        startActivity(i);
+                        finish();
+                    }
                 } else {
                     Intent i = new Intent(SplashScreenActivity.this, Login_Activity.class);
                     startActivity(i);

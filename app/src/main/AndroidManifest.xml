@@ -23,6 +23,21 @@
         android:theme="@style/Theme.CivicConnect"
         tools:targetApi="31">
         <activity
+            android:name=".authority.AuthorityScoreChecker"
+            android:exported="false" />
+        <activity
+            android:name=".authority.ShowCompleteReports"
+            android:exported="false" />
+        <activity
+            android:name=".authority.ShowPendingReports"
+            android:exported="false" />
+        <activity
+            android:name=".authority.ShowAvailableReports"
+            android:exported="false" />
+        <activity
+            android:name=".authority.DashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
