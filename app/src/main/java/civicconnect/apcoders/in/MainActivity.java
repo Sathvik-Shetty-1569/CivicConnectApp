@@ -1,6 +1,6 @@
 package civicconnect.apcoders.in;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -20,8 +21,15 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
+import civicconnect.apcoders.in.Utils.FetchUserData;
+import civicconnect.apcoders.in.models.AuthorityModel;
+import civicconnect.apcoders.in.models.NormalUserModel;
+import es.dmoral.toasty.Toasty;
 
 public class MainActivity extends AppCompatActivity {
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,20 +43,51 @@ public class MainActivity extends AppCompatActivity {
         ImageButton buttondrawer = findViewById(R.id.buttonDrawer);
         View headerView = navigationView.getHeaderView(0);
 
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.drawer_header, null, false);
+        View view = LayoutInflater.from(this).inflate(R.layout.drawer_header, null, false);
+
         SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-        String username = sharedPreferences.getString("UserType", "Normal User");
-        Log.d("onCreate: ", username);
+        String userType = sharedPreferences.getString("UserType", "Normal User");
+        if (userType.equals("Normal User")) {
+            FetchUserData.FetchNormalUserData(new FetchUserData.GetNormalUserData() {
+                @Override
+                public void onCallback(NormalUserModel normalUserModel) {
+                    if (normalUserModel != null) {
+                        Log.d("TAG", "onCallback: " + normalUserModel.getUserFulName() + normalUserModel.getEmail());
+                        TextView usernameTextView = headerView.findViewById(R.id.menu_username);
+                        usernameTextView.setText(normalUserModel.getUserFulName());
+                        TextView emailTextView = headerView.findViewById(R.id.menu_email);
+                        emailTextView.setText(normalUserModel.getEmail());
 
-        TextView usernameTextView = headerView.findViewById(R.id.menu_username);
-        Log.d("onCreate: ", usernameTextView.getText().toString());
-        usernameTextView.setText("123");
-        usernameTextView.setText(username);
+                    } else {
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(MainActivity.this, Login_Activity.class));
+                        finish();
+                    }
+                }
+            });
+        } else if (userType.equals("Authorities")) {
+            FetchUserData.FetchAuthorityData(new FetchUserData.GetAuthorityData() {
+                @Override
+                public void onCallback(AuthorityModel authorityModel) {
+                    if (authorityModel != null) {
+                        TextView usernameTextView = headerView.findViewById(R.id.menu_username);
+                        usernameTextView.setText(authorityModel.getUserFulName());
+                        TextView emailTextView = headerView.findViewById(R.id.menu_email);
+                        emailTextView.setText(authorityModel.getEmail());
+                    } else {
+                        firebaseAuth.signOut();
+                        startActivity(new Intent(MainActivity.this, Login_Activity.class));
+                        finish();
+                    }
+                }
+            });
+        } else {
+            firebaseAuth.signOut();
+            startActivity(new Intent(MainActivity.this, Login_Activity.class));
+            finish();
+        }
 
-        SharedPreferences sp = getSharedPreferences("Emailprefs", MODE_PRIVATE);
-        String email = sp.getString("email", "email");
-        TextView emailTextView = headerView.findViewById(R.id.menu_email);
-        emailTextView.setText(email);
+
         EdgeToEdge.enable(this);
 
 
@@ -69,37 +108,44 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
 
-//                if (itemId == R.id.navigation_home) {
-//                    Toast.makeText(HomeActivity.this, "Home Clicked", Toast.LENGTH_SHORT).show();
-//                    // No need to start HomeActivity again as it's already the current one
-//                } else if (itemId == R.id.navigation_profile) {
-//                    Toast.makeText(HomeActivity.this, "Manage Profile", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(HomeActivity.this, Profile_Activity.class));
-//                } else if (itemId == R.id.navigation_about) {
-//                    Toast.makeText(HomeActivity.this, "About Clicked", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(HomeActivity.this, AboutActivity.class));
-//                } else if (itemId == R.id.navigation_share) {
-//                    Toast.makeText(HomeActivity.this, "Share Clicked", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(Intent.ACTION_SEND);
-//                    intent.setType("text/plain");
-//                    String Body = "Download this App";
-//                    String Sub = "https://play.google.com";
-//                    intent.putExtra(Intent.EXTRA_TEXT, Body);
-//                    intent.putExtra(Intent.EXTRA_TEXT, Sub);
-//                    startActivity(Intent.createChooser(intent, "Share using"));
-//
-//
-//                } else if (itemId == R.id.navigation_logout) {
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    editor.putBoolean("isLoggedIn", false);
-//                    editor.apply();
-//
-//                    Toast.makeText(HomeActivity.this, "Logout Clicked", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(HomeActivity.this, Login_Activity.class));
-//                    finish(); // Close HomeActivity
-//
-//                }
-//                drawerLayout.closeDrawer(GravityCompat.START);
+                if (itemId == R.id.navigation_home) {
+                    Toasty.success(MainActivity.this, "Home Clicked", Toasty.LENGTH_SHORT).show();
+                    // No need to start MainActivity again as it's already the current one
+                } else if (itemId == R.id.navigation_profile) {
+                    Toasty.success(MainActivity.this, "Manage Profile", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                } else if (itemId == R.id.navigation_about) {
+                    Toasty.success(MainActivity.this, "About Clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, AboutActivity.class));
+                } else if (itemId == R.id.navigation_share) {
+                    String shareMessage = "🌟 Join the Movement with CivicConnect 🌟\n\n" +
+                            "Are you ready to make a difference? 🤝 Whether you need help or want to lend a hand, our app connects people and resources like never before!\n\n" +
+                            "✔️ Discover Local Help\n" +
+                            "✔️ Contribute to Your Community\n" +
+                            "✔️ Make Every Action Count\n\n" +
+                            "📲 Download now and become a part of something bigger!\n" +
+                            "👉 https://play.google.com/store/apps/details?id=" + getPackageName() + "\n\n" +
+                            "Let's work together to create a better tomorrow. 💙\n\n" +
+                            "#CrowdsourceAid #CommunitySupport #HelpConnect";
+
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+                    startActivity(Intent.createChooser(shareIntent, "Share App via"));
+//                    Toasty.success(MainActivity.this, "Share Clicked", Toast.LENGTH_SHORT).show();
+
+
+                } else if (itemId == R.id.navigation_logout) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("isLoggedIn", false);
+                    editor.apply();
+                    firebaseAuth.signOut();
+                    Toasty.success(MainActivity.this, "Logout Clicked", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, Login_Activity.class));
+                    finish(); // Close MainActivity
+
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
@@ -108,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 //        incident.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                startActivity(new Intent(HomeActivity.this, IncidentActivity.class));
+//                startActivity(new Intent(MainActivity.this, IncidentActivity.class));
 //            }
 //        });
 //
@@ -116,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 //        portal.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                startActivity(new Intent(HomeActivity.this, PortalActivity.class));
+//                startActivity(new Intent(MainActivity.this, PortalActivity.class));
 //            }
 //
 //        });
@@ -125,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 //        buttonTrackingSystem.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                startActivity(new Intent(HomeActivity.this, MapsActivity.class));
+//                startActivity(new Intent(MainActivity.this, MapsActivity.class));
 //            }
 //        });
 //
@@ -133,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 //        PanicPortal.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                startActivity(new Intent(HomeActivity.this, PanicActivity.class));
+//                startActivity(new Intent(MainActivity.this, PanicActivity.class));
 //            }
 //        });
 
@@ -142,5 +188,16 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void isLogin() {
+        try {
+            if (firebaseAuth.getCurrentUser().getUid() != null) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                finish();
+            }
+        } catch (Exception exception) {
+
+        }
     }
 }

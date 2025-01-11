@@ -3,7 +3,9 @@ package civicconnect.apcoders.in.models;
 public class AuthorityModel {
     String Userid, UserFulName, Username, Email, AuthorityLevel;
 
+public AuthorityModel(){
 
+}
     public AuthorityModel(String userid, String userFulName, String username, String email, String authorityLevel) {
         Userid = userid;
         UserFulName = userFulName;

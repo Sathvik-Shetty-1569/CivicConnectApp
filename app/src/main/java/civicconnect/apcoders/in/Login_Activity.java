@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -40,10 +41,12 @@ public class Login_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
         EdAuthorityLevel = findViewById(R.id.editTextAuthorityLevel);
         firebaseAuth = FirebaseAuth.getInstance();
+
         edEmail = findViewById(R.id.editTextLoginUsername);
         edPassowrd = findViewById(R.id.editTextLoginPassword);
         tv = findViewById(R.id.textViewNewUser);
@@ -84,25 +87,27 @@ public class Login_Activity extends AppCompatActivity {
                     firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            progressBar.setVisibility(View.VISIBLE);
-                            btn.setEnabled(true);
-                            Toasty.success(Login_Activity.this, "Login Successful", Toasty.LENGTH_LONG).show();
-                            Intent i = new Intent(Login_Activity.this, MainActivity.class);
-                            i.putExtra("UserType", UserType);
-                            SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putBoolean("isLoggedIn", true);
-                            editor.putString("UserType", UserType);
-                            editor.apply();
-                            startActivity(i);
-                            finish();
+                            if (task.isSuccessful()) {
+                                progressBar.setVisibility(View.VISIBLE);
+                                btn.setEnabled(true);
+                                Toasty.success(Login_Activity.this, "Login Successful", Toasty.LENGTH_LONG).show();
+                                Intent i = new Intent(Login_Activity.this, MainActivity.class);
+                                i.putExtra("UserType", UserType);
+                                SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("isLoggedIn", true);
+                                editor.putString("UserType", UserType);
+                                editor.apply();
+                                startActivity(i);
+                                finish();
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressBar.setVisibility(View.GONE);
                             btn.setEnabled(true);
-                            Toasty.error(Login_Activity.this, "Something goes Wrong", Toasty.LENGTH_LONG).show();
+                            Toasty.error(Login_Activity.this, "Invalid Credentials", Toasty.LENGTH_LONG).show();
                         }
                     });
                 }

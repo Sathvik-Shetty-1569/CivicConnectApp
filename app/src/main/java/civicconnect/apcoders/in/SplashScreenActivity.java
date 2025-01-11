@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.ProgressBar;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,6 +23,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash_screen);
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.spin_kit);
@@ -34,7 +36,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("share_prefs", MODE_PRIVATE);
                 boolean isLogging = sharedPreferences.getBoolean("isLoggedIn", false);
                 String UserType = sharedPreferences.getString("UserType", null);
-                if (isLogging) {
+                if (firebaseAuth.getCurrentUser() != null) {
                     Intent i = new Intent(SplashScreenActivity.this, MainActivity.class);
                     i.putExtra("UserType", UserType);
                     startActivity(i);

@@ -3,6 +3,10 @@ package civicconnect.apcoders.in.models;
 public class NormalUserModel {
     String Userid, UserFulName, Username, Email;
 
+    public NormalUserModel() {
+
+    }
+
     public NormalUserModel(String userid, String userFulName, String username, String email) {
         Userid = userid;
         UserFulName = userFulName;
