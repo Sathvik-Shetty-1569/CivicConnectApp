@@ -3,6 +3,7 @@ package civicconnect.apcoders.in.Adapters;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,6 @@ public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<Sh
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 View view = LayoutInflater.from(context).inflate(R.layout.change_status_layout, null, false);
                 builder.setView(view);
-
                 Spinner changeStatusSpinner = view.findViewById(R.id.changeStatusSpinner);
                 Button changeStatusBtn = view.findViewById(R.id.changeStatusBtn);
 
@@ -96,11 +96,13 @@ public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<Sh
                 dialog.show();
             }
         });
+        SharedPreferences sharedPreferences = context.getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
+        String UserFullName = sharedPreferences.getString("UserFullName", "Atul Dubal");
         holder.ProblemName.setText(ProblemDataList.get(position).getProblemName());
         holder.ProblemDescription.setText(ProblemDataList.get(position).getProblemDescription());
         holder.ProblemStatus.setText("Status : " + ProblemDataList.get(position).getStatus());
         holder.ProblemVotes.setText("Votes : " + ProblemDataList.get(position).getUpvotes());
-        holder.ProblemReporterName.setText(ProblemDataList.get(position).getUserId());
+        holder.ProblemReporterName.setText("Report Sender name : " + UserFullName);
         ProblemManagement.displayImageFromBase64(ProblemDataList.get(position).getPhotoUrl(), holder.ProblemImage);
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -2,6 +2,7 @@ package civicconnect.apcoders.in.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -96,11 +97,13 @@ public class ShowProblemRecyclerViewAdapter extends RecyclerView.Adapter<ShowPro
                 }
             });
         }
+        SharedPreferences sharedPreferences = context.getSharedPreferences("share_prefs", Context.MODE_PRIVATE);
+        String UserFullName = sharedPreferences.getString("UserFullName", "Atul Dubal");
         holder.ProblemName.setText(ProblemDataList.get(position).getProblemName());
         holder.ProblemDescription.setText(ProblemDataList.get(position).getProblemDescription());
         holder.ProblemStatus.setText("Status : " + ProblemDataList.get(position).getStatus());
         holder.ProblemVotes.setText("Votes : " + ProblemDataList.get(position).getUpvotes());
-        holder.ProblemReporterName.setText(ProblemDataList.get(position).getUserId());
+        holder.ProblemReporterName.setText("Report Sender name : "+UserFullName);
         ProblemManagement.displayImageFromBase64(ProblemDataList.get(position).getPhotoUrl(), holder.ProblemImage);
 //        holder.itemView.setOnClickListener(new View.OnClickListener() {
 //            @Override
