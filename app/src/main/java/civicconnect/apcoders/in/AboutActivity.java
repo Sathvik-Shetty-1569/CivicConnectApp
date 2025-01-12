@@ -24,7 +24,7 @@ public class AboutActivity extends AppCompatActivity {
             return insets;
         });
 
-        backBtn = findViewById(R.id.backBtn);
+        backBtn = findViewById(R.id.btnback);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
