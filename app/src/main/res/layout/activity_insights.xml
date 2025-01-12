@@ -86,7 +86,7 @@
             android:textColor="#00BCD4"
             android:textSize="20dp" />
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="300dp"

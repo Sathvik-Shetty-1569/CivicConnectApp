@@ -9,18 +9,20 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class InsightsActivity extends AppCompatActivity {
 
@@ -47,6 +49,8 @@ public class InsightsActivity extends AppCompatActivity {
         entries.add(new PieEntry(20, "UnSolved"));
 
 
+        BarChart barChart = findViewById(R.id.lineChart); // Ensure this is a BarChart in your XML layout
+
         PieDataSet dataSet = new PieDataSet(entries, "Reports Insights");
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
@@ -57,28 +61,47 @@ public class InsightsActivity extends AppCompatActivity {
         pieChart.getDescription().setText("Reports Insights");
         pieChart.animateY(1500);
 
-        LineChart lineChart = findViewById(R.id.lineChart);
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        barEntries.add(new BarEntry(1, 3));
+        barEntries.add(new BarEntry(2, 2));
 
-//         Data points for the chart
-        ArrayList<Entry> chartentries = new ArrayList<>();
-        chartentries.add(new Entry(0, 1));
-        chartentries.add(new Entry(1, 3));
-        chartentries.add(new Entry(2, 2));
-        chartentries.add(new Entry(3, 5));
+// Create a dataset for the bar chart
+        BarDataSet barDataSet = new BarDataSet(barEntries, "reports As Pee date");
+        barDataSet.setColor(Color.BLUE); // Set the color for the bars
+        barDataSet.setValueTextColor(Color.BLACK); // Set the color for the values displayed on the bars
 
-        LineDataSet chartdataSet = new LineDataSet(chartentries, "Sample Data");
-        chartdataSet.setColor(Color.BLUE);
-        chartdataSet.setValueTextColor(Color.BLACK);
+// Create BarData object and set it to the chart
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
 
-        LineData lineData = new LineData(chartdataSet);
-        lineChart.setData(lineData);
+// Customize the X-axis
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Position the X-axis at the bottom
+        xAxis.setDrawGridLines(false); // Disable grid lines for a cleaner look
+        xAxis.setGranularity(1f); // Ensure consistent intervals between the bars
 
-        // Customize chart appearance
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+// Optional: Add labels to the X-axis
+        xAxis.setValueFormatter(new ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                int intValue = (int) value;
+                if (intValue == 1) {
+                    return " " + new Date(2025, 0, 11).toLocaleString().substring(0, 10); // Custom labels for X-axis
+                } else {
+                    return " " + new Date(2025, 0, 12).toLocaleString().substring(0, 10);
+                }
+            }
+        });
 
-        lineChart.getDescription().setText("Line Chart Example");
-        lineChart.animateX(1500);
+// Additional BarChart Customizations
+        barChart.setTouchEnabled(true); // Enable touch gestures
+        barChart.setPinchZoom(true); // Allow zooming in/out
+        barChart.setFitBars(true); // Make bars fit within the chart view
+        barChart.getDescription().setEnabled(false); // Disable the description label
+        barChart.animateY(1000); // Add animation for better UX
+
+// Refresh the chart
+        barChart.invalidate();
     }
 
 }
