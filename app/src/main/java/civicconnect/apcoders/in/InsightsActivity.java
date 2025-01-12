@@ -86,9 +86,9 @@ public class InsightsActivity extends AppCompatActivity {
             public String getFormattedValue(float value) {
                 int intValue = (int) value;
                 if (intValue == 1) {
-                    return " " + new Date(2025, 0, 11).toLocaleString().substring(0, 10); // Custom labels for X-axis
+                    return " " + new Date(2025, 0, 11).toLocaleString().substring(0, 6); // Custom labels for X-axis
                 } else {
-                    return " " + new Date(2025, 0, 12).toLocaleString().substring(0, 10);
+                    return " " + new Date(2025, 0, 12).toLocaleString().substring(0, 6);
                 }
             }
         });
