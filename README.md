@@ -2,11 +2,9 @@
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Setup Instructions](#setup-instructions)
 - [Usage](#usage)
-- [Contributing](#contributing)
 - [License](#license)
 
 ---
@@ -42,30 +40,6 @@ community development.
 <img src="https://github.com/user-attachments/assets/b32ea5db-0f6d-4d24-80ad-80b7f32b163f" alt="Screenshot 6" width="400">
 
 
-
-## Features
-- **User Registration and Authentication**
-  - Secure sign-up and login using email and password.
-
-- **Role-Based Access**
-  - Roles for donors, recipients, and administrators.
-
-- **Aid Request Management**
-  - Recipients can create and manage requests for aid.
-
-- **Donor Contributions**
-  - Donors can view requests and contribute by providing financial or material support.
-
-- **Real-Time Notifications**
-  - Push notifications for updates on aid requests and contributions.
-
-- **Geo-Location Integration**
-  - Display requests and donors based on proximity for efficient coordination.
-
-- **Transparency and Tracking**
-  - View real-time updates and track the status of aid requests.
-
----
 
 ## Technologies Used
 - **Frontend**: Android (Java/XML)
