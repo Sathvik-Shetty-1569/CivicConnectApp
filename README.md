@@ -54,10 +54,8 @@ community development.
 ### Prerequisites
 1. Android Studio (latest version recommended)
 2. Firebase account with Firestore and Authentication enabled
-3. Razorpay account for payment integration
 4. Google Maps API Key
-
-6. Deploy the app on an Android device or emulator.
+5. Deploy the app on an Android device or emulator.
 
 ---
 
