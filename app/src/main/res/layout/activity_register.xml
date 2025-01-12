@@ -49,27 +49,27 @@
             app:layout_constraintVertical_bias="0.057" />
 
         <RadioGroup
-            android:layout_marginVertical="10dp"
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/radioBtnNormalBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/radioBtnNormalBtn"
-                android:checked="true"
                 android:layout_marginHorizontal="10dp"
+                android:checked="true"
                 android:text="Normal User"
                 android:textColor="@color/white" />
 
             <androidx.appcompat.widget.AppCompatRadioButton
+                android:id="@+id/radioBtnAuthorityBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:id="@+id/radioBtnAuthorityBtn"
                 android:text="Authorities"
                 android:textColor="@color/white" />
         </RadioGroup>
@@ -123,7 +123,6 @@
             app:layout_constraintVertical_bias="0.343" />
 
         <EditText
-            android:visibility="gone"
             android:id="@+id/editTextRegAuthorityLevel"
             android:layout_width="286dp"
             android:layout_height="49dp"
@@ -140,6 +139,7 @@
             android:paddingBottom="10dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
@@ -249,13 +249,13 @@
             app:layout_constraintVertical_bias="0.239" />
 
         <com.github.ybq.android.spinkit.SpinKitView
-            android:layout_marginVertical="20dp"
             android:id="@+id/spin_kit"
-            android:visibility="gone"
-            style="@style/SpinKitView.Small.Wave"
+            style="@style/SpinKitView.Large.Wave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            android:visibility="gone"
             app:SpinKit_Color="#FDFDFD"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

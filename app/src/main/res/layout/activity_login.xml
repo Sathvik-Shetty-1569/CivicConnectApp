@@ -174,7 +174,7 @@
         android:layout_marginVertical="20dp"
         android:id="@+id/spin_kit"
         android:visibility="gone"
-        style="@style/SpinKitView.Small.Wave"
+        style="@style/SpinKitView.Large.Wave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

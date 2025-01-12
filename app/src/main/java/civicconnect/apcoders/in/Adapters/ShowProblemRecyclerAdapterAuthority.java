@@ -27,7 +27,7 @@ import es.dmoral.toasty.Toasty;
 public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<ShowProblemRecyclerAdapterAuthority.ViewHolder> {
     Context context;
     ArrayList<ProblemModel> ProblemDataList;
-    String[] status = {"Select State", "Resolved", " Pending", "UnResolved"};
+    String[] status = {"Select Status", "Resolved", " Pending", "UnResolved"};
     String SelectedStatus;
 
     public ShowProblemRecyclerAdapterAuthority(Context context, ArrayList<ProblemModel> ProblemDataList) {
@@ -43,7 +43,7 @@ public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<Sh
         return new ViewHolder(view);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public void onBindViewHolder(@NonNull ShowProblemRecyclerAdapterAuthority.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
@@ -59,21 +59,26 @@ public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<Sh
                 changeStatusBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ProblemManagement.updateProblemStatus(ProblemDataList.get(position).getProblemId(), SelectedStatus, new ProblemManagement.ProblemStatusUpdateCallback() {
+                        if (!SelectedStatus.equals("Select Status")) {
+                            ProblemManagement.updateProblemStatus(ProblemDataList.get(position).getProblemId(), SelectedStatus, new ProblemManagement.ProblemStatusUpdateCallback() {
 
-                            @Override
-                            public void onStatusUpdated(boolean success, String message) {
-                                if (success) {
-                                    Toasty.success(context, "Status updated", Toasty.LENGTH_LONG).show();
-                                    notifyDataSetChanged();
-                                    ProblemDataList.remove(ProblemDataList.get(position));
-                                } else {
-                                    Toasty.success(context, "Status Not updated", Toasty.LENGTH_LONG).show();
+                                @Override
+                                public void onStatusUpdated(boolean success, String message) {
+                                    if (success) {
+                                        Toasty.success(context, "Status updated", Toasty.LENGTH_LONG).show();
+                                        notifyDataSetChanged();
+                                        ProblemDataList.remove(ProblemDataList.get(position));
+                                    } else {
+                                        Toasty.success(context, "Status Not updated", Toasty.LENGTH_LONG).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            Toasty.error(context, "please Select Valid Status", Toasty.LENGTH_LONG).show();
+                        }
                     }
                 });
+
                 ArrayAdapter adapter = new ArrayAdapter<>(context, R.layout.dropdown_layout, status);
 
                 changeStatusSpinner.setAdapter(adapter);
@@ -89,7 +94,7 @@ public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<Sh
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         // Handle the case when nothing is selected
-                        SelectedStatus = "Select State";
+                        SelectedStatus = "Select Status";
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -100,6 +105,14 @@ public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<Sh
         String UserFullName = sharedPreferences.getString("UserFullName", "Atul Dubal");
         holder.ProblemName.setText(ProblemDataList.get(position).getProblemName());
         holder.ProblemDescription.setText(ProblemDataList.get(position).getProblemDescription());
+        if (ProblemDataList.get(position).getStatus().equals("UnResolved")) {
+            holder.ProblemStatus.setBackground(context.getDrawable(R.drawable.statusred));
+        } else if (ProblemDataList.get(position).getStatus().equals("Resolved")) {
+            holder.ProblemStatus.setBackground(context.getDrawable(R.drawable.statusgreen));
+        } else {
+            holder.ProblemStatus.setBackground(context.getDrawable(R.drawable.statusyellow));
+        }
+
         holder.ProblemStatus.setText("Status : " + ProblemDataList.get(position).getStatus());
         holder.ProblemVotes.setText("Votes : " + ProblemDataList.get(position).getUpvotes());
         holder.ProblemReporterName.setText("Report Sender name : " + UserFullName);

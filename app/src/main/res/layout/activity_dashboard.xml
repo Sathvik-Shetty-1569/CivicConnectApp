@@ -174,40 +174,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/AuthorityScorecardView"
-                android:layout_width="151dp"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_column="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="8dp"
-                app:cardUseCompatPadding="true">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="140dp"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="75dp"
-                        android:layout_height="88dp"
-                        android:src="@drawable/expatriate" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="38dp"
-                        android:text="Authority Score"
-                        android:textAlignment="center"
-                        android:textColor="@color/colorRed"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 android:id="@+id/CommunityCardView"
                 android:layout_width="151dp"
@@ -240,6 +207,41 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/AuthorityScorecardView"
+                android:layout_width="151dp"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="8dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="75dp"
+                        android:layout_height="88dp"
+                        android:src="@drawable/speedometer" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:text="Authority Score"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorRed"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
                 android:id="@+id/InsightsCardView"
                 android:layout_width="151dp"
                 android:layout_height="wrap_content"
@@ -258,7 +260,7 @@
                     <ImageView
                         android:layout_width="75dp"
                         android:layout_height="88dp"
-                        android:src="@drawable/expatriate" />
+                        android:src="@drawable/insight" />
 
                     <TextView
                         android:layout_width="wrap_content"
