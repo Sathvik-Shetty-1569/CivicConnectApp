@@ -12,7 +12,13 @@
 ---
 
 ## Introduction
-The **Crowdsource Aid Platform** is a centralized solution designed to connect individuals, organizations, and communities in need with donors and volunteers. The platform leverages the power of crowdsourcing to provide accurate, reliable, and real-time assistance during emergencies or day-to-day support requirements.
+In both urban and rural areas, unresolved civic issues (e.g., potholes, 
+broken streetlights, inadequate waste management) negatively impact 
+community safety, quality of life, and public trust in local governance. 
+Current reporting systems often lack efficiency, transparency, and 
+accessibility, hindering effective issue resolution. This communication 
+gap between citizens and authorities impedes timely action and hinders 
+community development. 
 
 ### Team
 **AP Coders**  
