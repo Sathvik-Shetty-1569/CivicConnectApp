@@ -25,6 +25,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import civicconnect.apcoders.in.AboutActivity;
+import civicconnect.apcoders.in.CommunityActivity;
+import civicconnect.apcoders.in.InsightsActivity;
 import civicconnect.apcoders.in.Login_Activity;
 import civicconnect.apcoders.in.ProfileActivity;
 import civicconnect.apcoders.in.R;
@@ -35,8 +37,9 @@ import es.dmoral.toasty.Toasty;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    CardView avilableReportsCardView, pendingReportsCardView, completeReportsCardView, authorityScorecardView;
-FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    CardView avilableReportsCardView, CommunityCardView, InsightsCardView, pendingReportsCardView, completeReportsCardView, authorityScorecardView;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +75,10 @@ FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                         Log.d("TAG", "onCallback: " + normalUserModel.getUserFulName() + normalUserModel.getEmail());
                         TextView usernameTextView = headerView.findViewById(R.id.menu_username);
                         usernameTextView.setText(normalUserModel.getUserFulName());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserFullName", normalUserModel.getUserFulName());
+                        editor.apply();
+                        editor.commit();
                         TextView emailTextView = headerView.findViewById(R.id.menu_email);
                         emailTextView.setText(normalUserModel.getEmail());
 
@@ -89,6 +96,10 @@ FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     if (authorityModel != null) {
                         TextView usernameTextView = headerView.findViewById(R.id.menu_username);
                         usernameTextView.setText(authorityModel.getUserFulName());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserFullName", authorityModel.getUserFulName());
+                        editor.apply();
+                        editor.commit();
                         TextView emailTextView = headerView.findViewById(R.id.menu_email);
                         emailTextView.setText(authorityModel.getEmail());
                     } else {
@@ -164,15 +175,24 @@ FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         });
 
 
-      
+        InsightsCardView = findViewById(R.id.InsightsCardView);
+        InsightsCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashboardActivity.this, InsightsActivity.class));
+            }
+        });
 
         avilableReportsCardView.setOnClickListener(v -> {
             startActivity(new Intent(DashboardActivity.this, ShowAvailableReports.class));
         });
-
+        CommunityCardView = findViewById(R.id.CommunityCardView);
+        CommunityCardView.setOnClickListener(v -> {
+            startActivity(new Intent(DashboardActivity.this, CommunityActivity.class));
+        });
         pendingReportsCardView.setOnClickListener(v -> {
-                    startActivity(new Intent(DashboardActivity.this, ShowPendingReports.class));
-                });
+            startActivity(new Intent(DashboardActivity.this, ShowPendingReports.class));
+        });
 
         completeReportsCardView.setOnClickListener(v -> {
             startActivity(new Intent(DashboardActivity.this, ShowCompleteReports.class));

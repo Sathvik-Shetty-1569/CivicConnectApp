@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".CommunityActivity">
 
-    <View
+    <LinearLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/reg_bg3" />
+        android:layout_alignParentTop="true"
+        android:background="@drawable/reg_bg3"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
-    <TextView
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:fontFamily="@font/tapsery"
+            android:text="Community"
+            android:textAlignment="center"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            tools:ignore="MissingConstraints" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/tapsery"
-        android:text="Community"
-        android:textAlignment="center"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="318dp" />
+        android:id="@+id/communityChattingRecyclerView"
+        android:layout_below="@+id/main"
+        android:layout_marginVertical="10dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginVertical="10dp"
+        android:background="#F1EEEE"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".9"
+            android:hint="Ask To Community"
+            android:padding="10dp" />
+
+        <ImageView
+            android:id="@+id/addMessage"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/baseline_search_24" />
+    </LinearLayout>
+</RelativeLayout>

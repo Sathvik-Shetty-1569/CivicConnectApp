@@ -21,6 +21,7 @@ import com.github.ybq.android.spinkit.style.Wave;
 
 import java.util.ArrayList;
 
+import civicconnect.apcoders.in.Adapters.ShowProblemRecyclerAdapterAuthority;
 import civicconnect.apcoders.in.Adapters.ShowProblemRecyclerViewAdapter;
 import civicconnect.apcoders.in.R;
 import civicconnect.apcoders.in.Utils.ProblemManagement;
@@ -61,7 +62,7 @@ public class ShowPendingReports extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     noDataFoundText.setVisibility(View.GONE);
                     problemDataList = ProblemDataList;
-                    PendingReportsRecyclerView.setAdapter(new ShowProblemRecyclerViewAdapter(ShowPendingReports.this, problemDataList));
+                    PendingReportsRecyclerView.setAdapter(new ShowProblemRecyclerAdapterAuthority(ShowPendingReports.this, problemDataList));
                 }
             }
         });

@@ -56,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
                     if (normalUserModel != null) {
                         Log.d("TAG", "onCallback: " + normalUserModel.getUserFulName() + normalUserModel.getEmail());
                         TextView usernameTextView = headerView.findViewById(R.id.menu_username);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserFullName", normalUserModel.getUserFulName());
+                        editor.apply();
+                        editor.commit();
                         usernameTextView.setText(normalUserModel.getUserFulName());
                         TextView emailTextView = headerView.findViewById(R.id.menu_email);
                         emailTextView.setText(normalUserModel.getEmail());
@@ -74,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
                     if (authorityModel != null) {
                         TextView usernameTextView = headerView.findViewById(R.id.menu_username);
                         usernameTextView.setText(authorityModel.getUserFulName());
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserFullName", authorityModel.getUserFulName());
+                        editor.apply();
+                        editor.commit();
                         TextView emailTextView = headerView.findViewById(R.id.menu_email);
                         emailTextView.setText(authorityModel.getEmail());
                     } else {
@@ -88,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, Login_Activity.class));
             finish();
         }
-
 
         EdgeToEdge.enable(this);
 
@@ -196,12 +203,20 @@ public class MainActivity extends AppCompatActivity {
         authorityScorecardView.setOnClickListener(v -> {
             startActivity(new Intent(MainActivity.this, AuthorityScoreChecker.class));
         });
+
+        CardView InsightsCardView = findViewById(R.id.InsightsCardView);
+        InsightsCardView.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, InsightsActivity.class));
+        });
+
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
     }
+
 
     public void isLogin() {
         try {

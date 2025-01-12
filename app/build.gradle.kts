@@ -49,4 +49,5 @@ dependencies {
     implementation (libs.android.spinkit)
     implementation(libs.toasty)
     implementation(libs.play.services.location)
+    implementation (libs.mpandroidchart)
 }

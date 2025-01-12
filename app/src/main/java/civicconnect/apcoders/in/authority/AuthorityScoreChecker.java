@@ -26,9 +26,9 @@ public class AuthorityScoreChecker extends AppCompatActivity {
     private ProgressBar progressBar;
     private int pStatus = 0;
     private Handler handler = new Handler();
-    int SolveCount = 0;
-    int PendingCount = 0;
-    int ReportedCount = 0;
+    int SolveCount = 3;
+    int PendingCount = 2;
+    int ReportedCount = 5;
     TextView ResolvedCountTextView, PendingCountTextView, ReportedCountTextView;
 
     @SuppressLint("MissingInflatedId")
@@ -62,9 +62,6 @@ public class AuthorityScoreChecker extends AppCompatActivity {
                         PendingCount++;
                     }
                 }
-                ResolvedCountTextView.setText("Resolved : " + SolveCount);
-                PendingCountTextView.setText("Pending : " + PendingCount);
-                ReportedCountTextView.setText("UnResolve : " + ReportedCount);
             }
         });
 //        Log.d("TAG", "onCreate: "+ calculateSolvePercentage(10,100,10));
@@ -75,6 +72,9 @@ public class AuthorityScoreChecker extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+                            ResolvedCountTextView.setText("Resolved : " + SolveCount);
+                            PendingCountTextView.setText("Pending : " + PendingCount);
+                            ReportedCountTextView.setText("UnResolve : " + ReportedCount);
                             progressBar.setProgress(pStatus);
                             txtProgress.setText(pStatus + " %");
                         }

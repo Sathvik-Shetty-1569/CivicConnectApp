@@ -217,6 +217,7 @@ public class ProblemManagement {
             callback.onDataFetched(false, null); // Failure to fetch data
         });
     }
+
     public static void RemoveUpVoteProblem(String problemId, UserUpvoteCallback userUpvoteCallback) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -421,6 +422,41 @@ public class ProblemManagement {
             Log.d(TAG, "displayImageFromBase64: " + e.getMessage());
             // You can set a placeholder or show an error message here if decoding fails
         }
+    }
+
+    public static void updateProblemStatus(String problemId, String newStatus, ProblemStatusUpdateCallback callback) {
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        CollectionReference collection = firebaseFirestore.collection(COLLECTION_NAME);
+
+        // Step 1: Find the document where problemId matches
+        collection.whereEqualTo("problemId", problemId).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null && !task.getResult().isEmpty()) {
+                // Get the document ID
+                String documentId = task.getResult().getDocuments().get(0).getId();
+
+                // Step 2: Update the document's status
+                collection.document(documentId).update("status", newStatus)
+                        .addOnSuccessListener(aVoid -> {
+                            callback.onStatusUpdated(true, "Problem status updated successfully.");
+                            Log.d(TAG, "Problem status updated for problemId: " + problemId);
+                        })
+                        .addOnFailureListener(e -> {
+                            callback.onStatusUpdated(false, "Failed to update problem status.");
+                            Log.e(TAG, "Error updating problem status for problemId: " + problemId, e);
+                        });
+            } else {
+                callback.onStatusUpdated(false, "Problem not found.");
+                Log.e(TAG, "Problem not found for problemId: " + problemId);
+            }
+        }).addOnFailureListener(e -> {
+            callback.onStatusUpdated(false, "Error fetching problem.");
+            Log.e(TAG, "Error fetching problem for status update: ", e);
+        });
+    }
+
+    // Callback interface for status updates
+    public interface ProblemStatusUpdateCallback {
+        void onStatusUpdated(boolean success, String message);
     }
 
 }

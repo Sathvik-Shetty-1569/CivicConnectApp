@@ -16,6 +16,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import civicconnect.apcoders.in.Utils.FetchUserData;
 import civicconnect.apcoders.in.authority.DashboardActivity;
 import civicconnect.apcoders.in.models.AuthorityModel;
@@ -28,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText cont_no;
     ImageView back;
     Boolean saved;
-    TextView fullNameTextView, emailTextView;
+    TextView fullNameTextView, emailTextView, UserIdTextView, usernameTextView;
     String initialAddress, initialContactNo, initialRegion;
     SharedPreferences sharedPreferences;
     String userType;
@@ -38,7 +40,14 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
+        UserIdTextView = findViewById(R.id.textview_userId);
+        usernameTextView = findViewById(R.id.editTextUsername);
         emailTextView = findViewById(R.id.textview_email);
         fullNameTextView = findViewById(R.id.textview_fullname_tag);
 //        btn = findViewById(R.id.button_Apply_changes);
@@ -56,6 +65,8 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onCallback(NormalUserModel normalUserModel) {
                     fullNameTextView.setText(normalUserModel.getUserFulName());
                     emailTextView.setText(normalUserModel.getEmail());
+                    usernameTextView.setText(normalUserModel.getUsername());
+                    UserIdTextView.setText(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 }
             });
         } else if (userType.equals("Authorities")) {
@@ -64,6 +75,8 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onCallback(AuthorityModel authorityModel) {
                     fullNameTextView.setText(authorityModel.getUserFulName());
                     emailTextView.setText(authorityModel.getEmail());
+                    usernameTextView.setText(authorityModel.getUsername());
+                    UserIdTextView.setText(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 }
             });
         }
@@ -107,11 +120,7 @@ public class ProfileActivity extends AppCompatActivity {
 //            }
 //        });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
     }
 
 //    private void setSpinnerToValue(Spinner spinner, String value) {

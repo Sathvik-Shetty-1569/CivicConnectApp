@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
-   >
+    >
 
     <LinearLayout
-        android:paddingVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingVertical="10dp">
 
         <ImageView
             android:id="@+id/ProblemImageView"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="200dp"
             android:src="@drawable/user_avatar" />
 
         <LinearLayout
@@ -27,58 +26,57 @@
             android:orientation="vertical">
 
             <TextView
-                android:padding="5dp"
                 android:id="@+id/ProblemNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="Broken Street Lights"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:padding="5dp"
                 android:id="@+id/ProblemReporterNameTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="Atul Dubal"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:padding="5dp"
                 android:id="@+id/ProblemVotesTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="UpVotes : 99"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:padding="5dp"
                 android:id="@+id/ProblemDescriptionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="Report broken street lights causing inconvenience and safety concerns in your area. Quick action is needed."
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <TextView
-                android:padding="5dp"
                 android:id="@+id/ProblemStatusTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:text="Status : Pending"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/upVoteBtn"
-                android:layout_marginVertical="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginVertical="10dp"
                 android:src="@drawable/like_off"
-                />
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
