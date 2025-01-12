@@ -27,7 +27,7 @@ import es.dmoral.toasty.Toasty;
 public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<ShowProblemRecyclerAdapterAuthority.ViewHolder> {
     Context context;
     ArrayList<ProblemModel> ProblemDataList;
-    String[] status = {"Select Status", "Resolved", " Pending", "UnResolved"};
+    String[] status = {"Select Status", "Resolved", "Processing", "Pending", "Reported"};
     String SelectedStatus;
 
     public ShowProblemRecyclerAdapterAuthority(Context context, ArrayList<ProblemModel> ProblemDataList) {
@@ -105,10 +105,12 @@ public class ShowProblemRecyclerAdapterAuthority extends RecyclerView.Adapter<Sh
         String UserFullName = sharedPreferences.getString("UserFullName", "Atul Dubal");
         holder.ProblemName.setText(ProblemDataList.get(position).getProblemName());
         holder.ProblemDescription.setText(ProblemDataList.get(position).getProblemDescription());
-        if (ProblemDataList.get(position).getStatus().equals("UnResolved")) {
+        if (ProblemDataList.get(position).getStatus().equals("Reported")) {
             holder.ProblemStatus.setBackground(context.getDrawable(R.drawable.statusred));
         } else if (ProblemDataList.get(position).getStatus().equals("Resolved")) {
             holder.ProblemStatus.setBackground(context.getDrawable(R.drawable.statusgreen));
+        } else if (ProblemDataList.get(position).getStatus().equals("Processing")) {
+            holder.ProblemStatus.setBackground(context.getDrawable(R.drawable.statusyellow));
         } else {
             holder.ProblemStatus.setBackground(context.getDrawable(R.drawable.statusyellow));
         }

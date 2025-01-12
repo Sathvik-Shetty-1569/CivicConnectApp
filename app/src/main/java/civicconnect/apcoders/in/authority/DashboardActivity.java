@@ -37,7 +37,7 @@ import es.dmoral.toasty.Toasty;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    CardView avilableReportsCardView, CommunityCardView, InsightsCardView, pendingReportsCardView, completeReportsCardView, authorityScorecardView;
+    CardView avilableReportsCardView,ProceedingCardView, CommunityCardView, InsightsCardView, pendingReportsCardView, completeReportsCardView, authorityScorecardView;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
@@ -55,6 +55,7 @@ public class DashboardActivity extends AppCompatActivity {
         pendingReportsCardView = findViewById(R.id.pendingReportsCardView);
         completeReportsCardView = findViewById(R.id.CompleteReportsCardView);
         authorityScorecardView = findViewById(R.id.AuthorityScorecardView);
+        ProceedingCardView = findViewById(R.id.ProceedingCardView);
 
         DrawerLayout drawerLayout;
         NavigationView navigationView;
@@ -196,6 +197,9 @@ public class DashboardActivity extends AppCompatActivity {
 
         completeReportsCardView.setOnClickListener(v -> {
             startActivity(new Intent(DashboardActivity.this, ShowCompleteReports.class));
+        });
+        ProceedingCardView.setOnClickListener(v -> {
+            startActivity(new Intent(DashboardActivity.this, ShowProcessingReports.class));
         });
 
         authorityScorecardView.setOnClickListener(v -> {
